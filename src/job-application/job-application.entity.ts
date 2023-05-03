@@ -22,4 +22,5 @@ export class JobApplication {
 
   @Column()
   resumeName: string;
+  
 }

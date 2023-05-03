@@ -6,6 +6,9 @@ import { JobApplicationDto } from './job-appplication.dto';
 
 @Injectable()
 export class JobApplicationService {
+  sendMail(mailOptions: { from: string; to: string; subject: string; text: string; attachments: { filename: string; path: string; }[]; }) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectRepository(JobApplication)
     private readonly jobApplicationRepository: Repository<JobApplication>,

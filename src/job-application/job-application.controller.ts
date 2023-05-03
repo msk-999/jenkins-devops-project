@@ -23,54 +23,6 @@ export class JobApplicationController {
     private readonly configService: ConfigService,
   ) {}
 
-  // @Post('upload')
-  // @UseInterceptors(FileInterceptor('resume'))
-  // async create(
-  //   @Body() body: JobApplication,
-  //   @UploadedFile() resume: Express.Multer.File,
-  // ): Promise<JobApplication> {
-  //   const jobApplication = new JobApplication();
-  //   jobApplication.name = body.name;
-  //   jobApplication.phone = body.phone;
-  //   jobApplication.email = body.email;
-  //   jobApplication.coverLetter = body.coverLetter;
-  //   jobApplication.resumePath = resume.filename;
-
-  //   const createdJobApplication = await this.jobApplicationService.create(
-  //     jobApplication,
-  //   );
-
-  //   const transporter = nodemailer.createTransport({
-  //     service: 'gmail',
-  //     auth: {
-  //       user: this.configService.get<string>('MAIL_USER'),
-  //       pass: this.configService.get<string>('MAIL_PASSWORD'),
-  //     },
-  //   });
-
-  //   const mailOptions = {
-  //     from: this.configService.get<string>('MAIL_FROM'),
-  //     to: this.configService.get<string>('MAIL_TO'),
-  //     subject: 'New Job Application',
-  //     html: `
-  //       <h2>New Job Application</h2>
-  //       <ul>
-  //         <li>Name: ${jobApplication.name}</li>
-  //         <li>Phone: ${jobApplication.phone}</li>
-  //         <li>Email: ${jobApplication.email}</li>
-  //         <li>Cover Letter: ${jobApplication.coverLetter}</li>
-  //         <li>Resume: <a href="${this.configService.get<string>(
-  //           'APP_BASE_URL',
-  //         )}/${jobApplication.resumePath}">Download</a></li>
-  //       </ul>
-  //     `,
-  //   };
-
-  //   await transporter.sendMail(mailOptions);
-
-  //   return createdJobApplication;
-  // }
-
   @Post()
   @UseInterceptors(
     FileInterceptor('files', {
@@ -86,7 +38,7 @@ export class JobApplicationController {
       }),
     }),
   )
-  create(
+  async create(
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -97,37 +49,38 @@ export class JobApplicationController {
     file: Express.Multer.File,
     @Body() dto: JobApplicationDto,
   ) {
-    return this.jobApplicationService.fileUpload(file, dto);
-  }
-
-  const transporter = nodemailer.createTransport({
-      service: 'gmail',
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      tls: {
+        rejectUnauthorized: false,
+      },
       auth: {
-        user: this.configService.get<string>('MAIL_USER'),
-        pass: this.configService.get<string>('MAIL_PASSWORD'),
+        user: 'sudarshan.naik1312@gmail',
+        pass: 'oixagaznwoiqkxam',
       },
     });
 
     const mailOptions = {
-      from: this.configService.get<string>('MAIL_FROM'),
-      to: this.configService.get<string>('MAIL_TO'),
-      subject: 'New Job Application',
-      html: `
-        <h2>New Job Application</h2>
-        <ul>
-          <li>Name: ${JobApplication.name}</li>
-          <li>Phone: ${JobApplication.phone}</li>
-          <li>Email: ${JobApplication.email}</li>
-          <li>Cover Letter: ${JobApplication.coverLetter}</li>
-          <li>Resume: <a href="${this.configService.get<string>(
-            'APP_BASE_URL',
-          )}/${JobApplication.resumePath}">Download</a></li>
-        </ul>
-      `,
+      from: 'sudarshan.naik1312@gmail',
+      to: 'sudarshan.naik@skeletos.in',
+      subject: 'New Job Application Received',
+      text: `A new job application has been submitted with the following details:
+      Name: ${dto.name}
+      Phone: ${dto.phone}
+      Email: ${dto.email}
+      Cover Letter: ${dto.coverLetter}`,
+      attachments: [
+        {
+          filename: file.originalname,
+          path: file.path,
+        },
+      ],
     };
 
     await transporter.sendMail(mailOptions);
 
-    return createdJobApplication;
-
+    return this.jobApplicationService.fileUpload(file, dto);
+  }
 }

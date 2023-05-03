@@ -6,4 +6,6 @@ export class JobApplicationDto {
   email: string;
 
   coverLetter: string;
+
+  files: any;
 }
