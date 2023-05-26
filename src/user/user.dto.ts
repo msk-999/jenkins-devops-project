@@ -4,4 +4,6 @@ export class UserDto {
   phone: string;
 
   email: string;
+
+  requirements: string;
 }
