@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+
 import * as cors from 'cors';
 
 async function bootstrap() {
@@ -13,6 +14,6 @@ async function bootstrap() {
     preflightContinue: false,
   });
 
-  await app.listen(3001);
+  await app.listen(8000);
 }
 bootstrap();
