@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Get, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JobApplication } from './job-application.entity';
 import { JobApplicationDto } from './job-appplication.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import Helpers from 'src/common/helper/helpers.helper';
+import { join } from 'path';
 
 @Injectable()
 export class JobApplicationService {
@@ -31,22 +32,26 @@ export class JobApplicationService {
       ...obj,
     });
 
-   await this.mailerService.sendMail({
-     from: `"noreply" <network@skeletos.in>`,
-     to: `sudarshan.naik@skeletos.in`,
-     subject: `Userdata can be seen as following`,
-     html: `<h3>Hello Admin</h3>
+    await this.mailerService.sendMail({
+      from: `"noreply" <network@skeletos.in>`,
+      to: `sudarshan.naik@skeletos.in`,
+      subject: `Userdata can be seen as following`,
+      html: `<h3>Hello Admin</h3>
     <h5>The details of the applicant are as follows:</h5>
     <p>Name: ${obj.name}</p>
     <p>Phone: ${obj.phone}</p>
     <p>Email: ${obj.email}</p>
     <p>Cover Letter: ${obj.coverLetter}</p>
     <p>Resume Name: ${obj.resumeName}</p>
-    <p>Resume Path: <a href="${
-      './files' + obj.resumePath
-    }" download target="_blank">Download Resume</a></p>`,
-   });
-
+    `,
+      attachments: [
+        {
+          path: join(__dirname, '../../files', obj.resumePath),
+          filename: obj.resumeName,
+          contentDisposition: 'attachment',
+        },
+      ],
+    });
 
     return Helpers.sendCreated(transaction);
   }
