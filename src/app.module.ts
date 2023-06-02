@@ -12,10 +12,10 @@ import { MailModule } from './mail/mail.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '101.53.134.82',
       port: 3306,
-      username: 'root',
-      password: 'Sudarshannk@13',
+      username: 'skeletosuser',
+      password: 'Admin@123',
       database: 'skeletos',
       entities: [User, JobApplication],
       synchronize: true,

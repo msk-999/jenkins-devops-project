@@ -37,7 +37,7 @@ export class JobApplicationService {
       to: `sudarshan.naik@skeletos.in`,
       subject: `Userdata can be seen as following`,
       html: `<h3>Hello Admin</h3>
-    <h5>The details of the applicant are as follows:</h5>
+    <h3>The details of the applicant are as follows:</h3>
     <p>Name: ${obj.name}</p>
     <p>Phone: ${obj.phone}</p>
     <p>Email: ${obj.email}</p>
