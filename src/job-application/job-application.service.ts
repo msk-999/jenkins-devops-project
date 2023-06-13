@@ -34,7 +34,7 @@ export class JobApplicationService {
 
     await this.mailerService.sendMail({
       from: `"noreply" <network@skeletos.in>`,
-      to: `info@skeletos.io`,
+      to: `talent@skeletos.io`,
       subject: `Userdata can be seen as following`,
       html: `<h3>Hello Admin</h3>
     <h3>The details of the applicant are as follows:</h3>

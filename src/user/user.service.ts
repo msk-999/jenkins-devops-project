@@ -31,7 +31,7 @@ export class UserService {
     obj.requirements = user.requirements;
     await this.mailerService.sendMail({
       from: `"noreply" <network@skeletos.in>`,
-      to: `info@skeletos.io`,
+      to: `talent@skeletos.io`,
       subject: `Userdata can be seen as following`,
       html: `<h3>Hello Admin</h3>
       <p>Name: ${obj.name}</p>
