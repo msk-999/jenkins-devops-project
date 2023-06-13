@@ -16,7 +16,7 @@ import { MailModule } from './mail/mail.module';
       port: 3306,
       username: 'skeletosuser',
       password: 'Admin@123',
-      database: 'skeletos',
+      database: 'skeletosdb',
       entities: [User, JobApplication],
       synchronize: true,
     }),
