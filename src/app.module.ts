@@ -12,7 +12,7 @@ import { MailModule } from './mail/mail.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '101.53.134.82',
+      host: 'db',
       port: 3306,
       username: 'skeletosuser',
       password: 'Admin@123',
