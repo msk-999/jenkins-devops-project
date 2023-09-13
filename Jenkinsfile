@@ -4,7 +4,7 @@ pipeline {
     }
     
     environment {
-        dockerHome = tool 'myDocker'
+        dockerHome = tool 'mydocker'
         PATH = "$dockerHome/bin:$PATH"
     }
     
