@@ -3,10 +3,10 @@ pipeline {
         docker { image 'node:18-alpine' }
     }
     
-    environment {
-        dockerHome = tool 'mydocker'
-        PATH = "$dockerHome/bin:$PATH"
-    }
+//    environment {
+//        dockerHome = tool 'mydocker'
+//        PATH = "$dockerHome/bin:$PATH"
+//    }
     
     stages {
         stage('Build') {
