@@ -1,58 +1,27 @@
 pipeline {
-    // Clean up the workspace before starting
     agent {
         docker {
             image 'node:18-alpine'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '-u node' // Run as the 'node' user
         }
     }
-
+    
     stages {
-        stage('Preparation') {
+        stage('Build and Deploy') {
             steps {
-                deleteDir()
-            }
-        }
+                // Check out the code
+                checkout scm
 
-        stage('Build') {
-            steps {
-                sh "node --version"
-                sh "docker version"
-                echo "Build"
-                echo "PATH - $PATH"
-                echo "BUILD_NUMBER - $env.BUILD_NUMBER"
-                echo "BUILD_ID - $env.BUILD_ID"
-                echo "JOB_NAME - $env.JOB_NAME"
-                echo "BUILD_TAG - $env.BUILD_TAG"
-                echo "BUILD_URL - $env.BUILD_URL"
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo "Test"
-                echo "Integration success"
-            }
-        }
-
-        stage('Integration Build') {
-            steps {
-                echo "Integration final output"
+                // Build and deploy the Node.js application
+                sh 'npm install' // Install dependencies
+                sh 'npm start'   // Start the application
             }
         }
     }
-
+    
     post {
         always {
-            echo 'I run always'
-        }
-
-        success {
-            echo 'I run when the build is successful'
-        }
-
-        failure {
-            echo 'I run when the build fails'
+            echo 'Deployment complete'
         }
     }
 }
