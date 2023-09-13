@@ -1,14 +1,16 @@
 pipeline {
+    // Clean up the workspace before starting
     agent {
         docker { image 'node:18-alpine' }
     }
-    
-    environment {
-        dockerHome = tool 'mydocker'
-        PATH = "$dockerHome/bin:$PATH"
-    }
-    
+
     stages {
+        stage('Preparation') {
+            steps {
+                deleteDir()
+            }
+        }
+
         stage('Build') {
             steps {
                 sh "node --version"
@@ -22,30 +24,30 @@ pipeline {
                 echo "BUILD_URL - $env.BUILD_URL"
             }
         }
-        
+
         stage('Test') {
             steps {
                 echo "Test"
                 echo "Integration success"
             }
         }
-        
+
         stage('Integration Build') {
             steps {
                 echo "Integration final output"
             }
         }
     }
-    
+
     post {
         always {
             echo 'I run always'
         }
-        
+
         success {
             echo 'I run when the build is successful'
         }
-        
+
         failure {
             echo 'I run when the build fails'
         }
