@@ -3,16 +3,16 @@ pipeline {
         docker { image 'node:18-alpine' }
     }
     
-//    environment {
-//        dockerHome = tool 'mydocker'
-//        PATH = "$dockerHome/bin:$PATH"
-//    }
+    environment {
+        dockerHome = tool 'mydocker'
+        PATH = "$dockerHome/bin:$PATH"
+    }
     
     stages {
         stage('Build') {
             steps {
-//              sh "node --version"
-//              sh "docker --version"
+                sh "node --version"
+                sh "docker --version"
                 echo "Build"
                 echo "PATH - $PATH"
                 echo "BUILD_NUMBER - $env.BUILD_NUMBER"
