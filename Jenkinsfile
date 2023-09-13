@@ -1,7 +1,10 @@
 pipeline {
     // Clean up the workspace before starting
     agent {
-        docker { image 'node:18-alpine' }
+        docker {
+            image 'node:18-alpine'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
 
     stages {
