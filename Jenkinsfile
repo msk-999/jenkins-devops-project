@@ -18,7 +18,8 @@ pipeline {
              echo "integration final output"
          }    
        }
-    }  post{
+    }  
+    post{
       always{
        echo 'Im awesome , I run always'
       }
