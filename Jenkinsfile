@@ -4,12 +4,12 @@ pipeline {
         docker { image 'node:18-alpine' }
     }
 
-    stages {
-        stage('Preparation') {
-            steps {
-                deleteDir()
-            }
-        }
+//    stages {
+//        stage('Preparation') {
+//            steps {
+//                deleteDir()
+//            }
+//        }
 
         stage('Build') {
             steps {
