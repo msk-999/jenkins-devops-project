@@ -34,7 +34,7 @@ pipeline {
                     sh """
                         docker run -d --name $APP_NAME \
                           --restart=unless-stopped \
-                          -v $DEPLOY_DIR:/app \
+                          -v $DEPLOY_DIR \
                           -w /app \
                           -p 8000:8000 \
                           $DOCKER_IMAGE \
