@@ -1,49 +1,48 @@
-// pipeline {
-//     agent {
-//         docker { 
-//             image 'node:18-alpine' 
-//         }
-//     }
+pipeline {
+    agent { label 'dev' } // Use the label of your Jenkins agent
 
-//     stages {
-//         stage('Build') {
-//             steps {
-//                 sh "node --version"
-//                 echo "Build"
-//                 echo "PATH - $PATH"
-//                 echo "BUILD_NUMBER - $env.BUILD_NUMBER"
-//                 echo "BUILD_ID - $env.BUILD_ID"
-//                 echo "JOB_NAME - $env.JOB_NAME"
-//                 echo "BUILD_TAG - $env.BUILD_TAG"
-//                 echo "BUILD_URL - $env.BUILD_URL"
-//             }
-//         }
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your source code from version control (e.g., Git)
+                checkout scm
+            }
+        }
 
-//         stage('Test') {
-//             steps {
-//                 echo "Test"
-//                 echo "Integration success"
-//             }
-//         }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build your Docker image (replace with your build command)
+                    sh 'docker build -t skeletos_backend:1.0 .'
+                }
+            }
+        }
 
-//         stage('Integration Build') {
-//             steps {
-//                 echo "Integration final output"
-//             }
-//         }
-//     }
+        stage('Deploy Docker Container') {
+            steps {
+                script {
+                    // Define container and image names
+                    def APP_NAME = 'skeletos_backend_container'
+                    def DEPLOY_DIR = '/app'
+                    def DOCKER_IMAGE = 'skeletos_backend:1.0'
 
-//     post {
-//         always {
-//             echo 'I run always'
-//         }
+                    // Stop and remove existing containers with the same name
+                    sh "docker stop $APP_NAME || true"
+                    sh "docker rm $APP_NAME || true"
 
-//         success {
-//             echo 'I run when the build is successful'
-//         }
-
-//         failure {
-//             echo 'I run when the build fails'
-//         }
-//     }
-// }
+                    // Create a new container and run it
+                    sh '''
+                        #!/bin/bash
+                        docker run -d --name $APP_NAME \
+                          --restart=unless-stopped \
+                          -v $DEPLOY_DIR:/app \
+                          -w /app \
+                          -p 8000:8000 \
+                          $DOCKER_IMAGE \
+                          npm run start:dev
+                    '''
+                }
+            }
+        }
+    }
+}
