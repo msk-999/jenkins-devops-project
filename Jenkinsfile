@@ -37,8 +37,7 @@ pipeline {
                           -v $DEPLOY_DIR \
                           -w /app \
                           -p 8000:8000 \
-                          $DOCKER_IMAGE \
-                          npm run start:dev
+                          $DOCKER_IMAGE
                     """
                 }
             }
