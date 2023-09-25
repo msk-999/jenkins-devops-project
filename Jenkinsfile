@@ -23,7 +23,7 @@ pipeline {
                 script {
                     // Define container and image names
                     def APP_NAME = 'skeletos_backend_container'
-                    def DEPLOY_DIR = '$WORKSPACE:/app'
+                    def DEPLOY_DIR = "${WORKSPACE}:/app" // Corrected syntax here
                     def DOCKER_IMAGE = 'skeletos_backend:1.0'
 
                     // Stop and remove existing containers with the same name
@@ -31,8 +31,7 @@ pipeline {
                     // sh "docker rm $APP_NAME || true"
 
                     // Create a new container and run it
-                    sh '''
-                        #!/bin/bash
+                    sh """
                         docker run -d --name $APP_NAME \
                           --restart=unless-stopped \
                           -v $DEPLOY_DIR:/app \
@@ -40,7 +39,7 @@ pipeline {
                           -p 8000:8000 \
                           $DOCKER_IMAGE \
                           npm run start:dev
-                    '''
+                    """
                 }
             }
         }
