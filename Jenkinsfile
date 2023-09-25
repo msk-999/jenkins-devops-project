@@ -27,8 +27,8 @@ pipeline {
                     def DOCKER_IMAGE = 'skeletos_backend:1.0'
 
                     // Stop and remove existing containers with the same name
-                    sh "docker stop $APP_NAME || true"
-                    sh "docker rm $APP_NAME || true"
+                    // sh "docker stop $APP_NAME || true"
+                    // sh "docker rm $APP_NAME || true"
 
                     // Create a new container and run it
                     sh '''
