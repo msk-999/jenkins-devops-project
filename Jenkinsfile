@@ -23,7 +23,7 @@ pipeline {
                 script {
                     // Define container and image names
                     def APP_NAME = 'skeletos_backend_container'
-                    def DEPLOY_DIR = '/app'
+                    def DEPLOY_DIR = '$WORKSPACE:/app'
                     def DOCKER_IMAGE = 'skeletos_backend:1.0'
 
                     // Stop and remove existing containers with the same name
